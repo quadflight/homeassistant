@@ -1,0 +1,15 @@
+garage_delay_10_scipt:
+  sequence:
+  - service: notify.push_gcm
+    data_template:
+      title: "Garage Door Delay"
+      message:  "Garage Auto Close Delayed for 10 minutes"
+  - service: homeassistant.turn_off
+    entity_id: script.garage_close_main
+  - delay: 00:10:00
+  - service: homeassistant.turn_on
+    entity_id: script.garage_close_main
+  - service: notify.push_gcm
+    data_template:
+      title: "Garage Door Resume"
+      message:  "Garage Auto Close Resume"

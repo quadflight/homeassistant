@@ -1,0 +1,10 @@
+play_uk_capital_radio_zone3:
+  alias: Play UK Capital Radio on Zone 3
+  sequence:
+    # - service: switch.turn_off
+    #   entity_id: switch.garage_door_switch_1
+    - service: media_player.play_media
+      entity_id: media_player.zone3
+      data:
+        media_content_id: "http://media-the.musicradio.com:80/CapitalMP3"
+        media_content_type: audio/mp3

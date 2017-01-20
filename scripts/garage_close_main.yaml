@@ -1,0 +1,33 @@
+garage_close_main:
+  sequence:
+########################################################
+# Garage open for 1 minute
+########################################################
+  - condition: state
+    entity_id: binary_sensor.garage_door_sensor_1
+    state: 'on'
+    # for: 00:01:00
+  - service: notify.push_gcm
+    data_template:
+      title: "Garage Door"
+      message: "The garage door is closing in 1 minute"
+      data:
+        actions:
+          - action: "close_garage"
+            title: "Close Garage"
+          - action: "delay_garage_10"
+            title: "Delay for 10 Minutes"
+  - delay: 00:01:00
+  #######################################################
+  # Close garage if no response
+  #######################################################
+  - service: script.turn_on
+    entity_id: script.garage_click
+  - delay: 00:00:10
+  #######################################################
+  # GCM notify garage closed time
+  #######################################################
+  - service: notify.push_gcm
+    data_template:
+      title: "Garage Door"
+      message:  "The garage was closed at - {{ as_timestamp(now()) | timestamp_custom('%I:%M:%S %p') }}"
