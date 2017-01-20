@@ -1,27 +1,21 @@
 #######################################################
 # Zone 2 Power Down if not in use
-# Check every 59 minutes
+# Check every 30 minutes
 #######################################################
 alias: Zone 2 Auto Power Down
 trigger:
   platform: time
-  minutes: '/59'
+  minutes: '/30'
   seconds: 00
 condition:
-  condition: or
-  conditions:
-    - condition: state
-      entity_id: media_player.zone3
-      state: 'off'
-    - condition: state
-      entity_id: 'media_player.zone3'
-      state: 'idle'
-    - condition: state
-      entity_id: 'media_player.mpd'
-      state: 'idle'
-    - condition: state
-      entity_id: 'media_player.mpd'
-      state: 'off'  
+ condition: and
+ conditions:
+  - condition: template
+    value_template: '{{ true if (states.media_player.mpd.state == "idle" or states.media_player.mpd.state == "off" and states.media_player.zone3.state == "off" or states.media_player.zone3.state == "idle") else false}}'
+  - condition: state
+    entity_id: media_player.yamaha_receiver_zone_2
+    state: 'on'
+    for: 00:05:00
 action:
     - service: media_player.turn_off
       entity_id: media_player.yamaha_receiver_zone_2
