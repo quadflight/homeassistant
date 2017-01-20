@@ -1,0 +1,21 @@
+########################################################
+# Turn Kitchen Speakers Off if no motion is detected last 5 minutes
+########################################################
+alias: Kitchen Speakers Auto Off
+trigger:
+  platform: state
+  entity_id: binary_sensor.kitchen_sensor_motion
+  to: 'off'
+  for: 00:05:00
+condition:
+ condition: and
+ conditions:
+########################################################
+# Check Guest Mode is Off
+########################################################
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+action:
+  service: switch.turn_off
+  entity_id: switch.kitchen_speakers

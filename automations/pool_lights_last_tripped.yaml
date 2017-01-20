@@ -1,0 +1,39 @@
+########################################################
+# Turn Pool light Off if no motion is detected last 3 minutes
+########################################################
+alias: Pool Last Tripped Test
+########################################################
+# Check every 2 minutes
+########################################################
+trigger:
+  platform: time
+  minutes: '/2'
+  seconds: 00
+condition:
+ condition: and
+ conditions:
+########################################################
+# Check Pool Lights on for 1 minute. Manual on Fix
+########################################################
+  - condition: state
+    entity_id: group.pool_lights
+    state: 'on'
+    for: 00:01:00
+    
+########################################################
+# Check Guest Mode is Off
+########################################################
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+########################################################
+# Check since last tripped, if more than 5 minutes True
+# Time in seconds
+########################################################
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.binary_sensor.pool_motion_sensor.attributes.last_tripped_time) > 150}}'
+action:
+  - service: switch.turn_off
+    entity_id: switch.pool_patio_light
+  - service: switch.turn_off
+    entity_id: switch.pool_side_light

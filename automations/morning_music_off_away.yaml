@@ -1,0 +1,20 @@
+########################################################
+# S7E iPhone Away Background Music off
+########################################################
+alias: S7E iPhone Away Music Off
+########################################################
+trigger:
+  platform: state
+  entity_id: device_tracker.iphone, device_tracker.pi_s7e
+  from : 'home'
+  to: 'not_home'
+  for: 00:02:00
+
+########################################################
+# Turn on Master/Bath Lights
+########################################################
+action:
+  - service: media_player.turn_off
+    entity_id: media_player.yamaha_receiver_zone_2
+  - service: media_player.turn_off
+    entity_id: media_player.zone3

@@ -1,0 +1,23 @@
+# Turn on pool side lights on motion
+# Check Sun Elevation is below 0.5
+alias: Turn on Pool Light Motion
+trigger:
+  - platform: state
+    entity_id: binary_sensor.pool_motion_sensor
+    to: 'on'
+
+condition:
+  condition: and
+  conditions:
+    - condition: state
+      entity_id: group.pool_lights
+      state: 'off'
+    - condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+      below: 0.5
+action:
+  - service: switch.turn_on
+    entity_id: switch.pool_patio_light
+  - service: switch.turn_on
+    entity_id: switch.pool_side_light

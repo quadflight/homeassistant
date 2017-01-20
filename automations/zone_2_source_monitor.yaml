@@ -1,0 +1,11 @@
+alias: Zone 2 Source Monitor
+trigger:
+  - platform: state
+    entity_id: media_player.yamaha_receiver_zone_2
+
+action:
+  - service: mqtt.publish
+    data_template:
+     topic: "zone2/monitors"
+     retain: true
+     payload: '{{ states.media_player.yamaha_receiver_zone_2.attributes.source }}'

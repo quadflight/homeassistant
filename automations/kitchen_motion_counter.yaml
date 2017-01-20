@@ -1,0 +1,18 @@
+################################################################
+# Count Kitchen Motion via MQTT
+################################################################
+alias: Kitchen Motion Counter
+trigger:
+  - platform: state
+    entity_id: binary_sensor.kitchen_sensor_motion
+    to: 'on'
+# Kitchen motion counter +1
+action:
+    
+  - service: mqtt.publish
+    data_template:
+     topic: "motion/kitchen"
+     payload: >
+        {{ states("sensor.kitchen_motion_count") | int + 1}}  
+     
+     

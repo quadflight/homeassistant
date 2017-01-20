@@ -1,0 +1,18 @@
+# Send GSM Message when garage sensor is off
+alias: GCM Garage Closed Notification
+trigger:
+  platform: state
+  entity_id: binary_sensor.garage_door_sensor_1
+  from: 'on'
+  to: 'off'
+#Stop triggering when HASS restarts
+# condition:
+#   - condition: template
+#     value_template:  '{{ trigger.from_state.state is not none }}'
+
+
+action:
+  - service: notify.push_gcm
+    data_template:
+      title: "Garage Door"
+      message:  "The garage was closed at - {{ as_timestamp(now()) | timestamp_custom('%I:%M:%S %p') }}"

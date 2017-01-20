@@ -1,0 +1,13 @@
+########################################################
+# Force Close garage on GCM notification button
+########################################################
+alias: GCM Garage Delay 10
+trigger:
+  platform: event
+  event_type: html5_notification.clicked
+  event_data:
+    action: delay_garage_10
+
+action:
+  - service: homeassistant.turn_on
+    entity_id: script.garage_delay_10_scipt

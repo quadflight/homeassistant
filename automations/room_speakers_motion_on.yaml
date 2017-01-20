@@ -1,0 +1,30 @@
+########################################################
+# Turn Room Speakers On - Motion
+########################################################
+alias: Room Speakers Auto On
+########################################################
+trigger:
+  - platform: state
+    entity_id: binary_sensor.master_motion
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.guest_bath_motion_sensor
+    to: 'on'
+condition:
+ condition: or
+ conditions:
+########################################################
+# Check Aventage Zone 2 Status
+########################################################
+  - condition: state
+    entity_id: media_player.yamaha_receiver_zone_2
+    state: 'on'
+  - condition: state
+    entity_id: media_player.yamaha_receiver_zone_2
+    state: 'playing'
+########################################################
+# Turn on Room Speakers
+########################################################
+action:
+  - service: switch.turn_on
+    entity_id: switch.room_speakers  

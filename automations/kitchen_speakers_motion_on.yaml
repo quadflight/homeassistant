@@ -1,0 +1,27 @@
+########################################################
+# Turn Kitchen Speakers On - Motion
+########################################################
+alias: Kitchen Speakers Auto On
+########################################################
+trigger:
+  platform: state
+  entity_id: binary_sensor.kitchen_sensor_motion
+  to: 'on'
+condition:
+ condition: or
+ conditions:
+########################################################
+# Check Aventage Zone 2 Status
+########################################################
+  - condition: state
+    entity_id: media_player.yamaha_receiver_zone_2
+    state: 'on'
+  - condition: state
+    entity_id: media_player.yamaha_receiver_zone_2
+    state: 'playing'
+########################################################
+# Turn on Kitchen Speakers
+########################################################
+action:
+  - service: switch.turn_on
+    entity_id: switch.kicthen_speakers  

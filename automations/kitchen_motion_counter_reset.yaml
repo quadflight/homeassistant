@@ -1,0 +1,30 @@
+################################################################
+# Kitchen Counter Reset
+################################################################
+alias: Kitchen Counter Reset
+trigger:
+  platform: time
+  minutes: '/5'
+  seconds: 00
+# Compare the count and set boolean ON or OFF
+# condition:
+ # condition: and
+ # conditions:
+
+  # - condition: numeric_state
+    # entity_id: sensor.kitchen_motion_count
+    # above: '1'
+action:
+  - service_template: '{{  "input_boolean.turn_on" if states("sensor.kitchen_motion_count") | int > 5 else "input_boolean.turn_off" }}'
+    entity_id: input_boolean.kitchen_heavy_traffic
+  
+# Reset the counter
+# Publish payload as 1
+  - service: mqtt.publish
+    data_template:
+     topic: "motion/kitchen"
+     payload: '0'
+
+
+  # - service: homeassistant.turn_on
+    # entity_id: script.kitchen_lights_traffic_0

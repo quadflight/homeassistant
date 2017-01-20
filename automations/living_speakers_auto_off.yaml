@@ -1,0 +1,21 @@
+########################################################
+# Turn Living Speakers Off if no motion is detected last 5 minutes
+########################################################
+alias: Living Speakers Auto Off
+trigger:
+  platform: state
+  entity_id: binary_sensor.living_cam_motion
+  to: 'off'
+  for: 00:05:00
+condition:
+ condition: and
+ conditions:
+########################################################
+# Check Guest Mode is Off
+########################################################
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+action:
+  service: switch.turn_off
+  entity_id: switch.living_speakers
