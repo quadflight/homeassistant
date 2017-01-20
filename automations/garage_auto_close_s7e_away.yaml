@@ -1,0 +1,40 @@
+#######################################################
+# close garage when S7E away
+#######################################################
+alias: Garage Close S7E Away
+#######################################################
+# Check every 2 minutes
+#######################################################
+trigger:
+  platform: time
+  minutes: '/2'
+  seconds: 00
+condition:
+ condition: and
+ conditions:
+#######################################################
+# S7E not_home for 1 minute
+#######################################################
+  - condition: state
+    entity_id: device_tracker.pi_s7e
+    state: 'not_home'
+    for: 00:01:00
+  - condition: state
+    entity_id: binary_sensor.garage_door_sensor_1
+    state: 'on'
+    for: 00:01:00
+  - condition: state
+    entity_id: script.garage_delay_10_scipt
+    state: 'off'
+  - condition: state
+    entity_id: script.garage_close_main
+    state: 'off'
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.binary_sensor.garage_pir_motion_1.attributes.last_tripped_time) > 180 }}'
+
+#######################################################
+# GCM Notify with option to close immediately or delay for 10 minutes
+#######################################################
+action:
+  - service: homeassistant.turn_on
+    entity_id: script.garage_close_main

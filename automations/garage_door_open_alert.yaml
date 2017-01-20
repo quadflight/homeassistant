@@ -1,0 +1,70 @@
+# Garage door open reminder
+# Beam Tripped / Object Deteced /ETC
+# Check door is open for more than 10 minutes
+#
+alias: Garage Door Open 10 Minutes Reminder
+trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_door_sensor_1
+    from: 'off'
+    to: 'on'
+    state: 'on'
+    for:
+       hours: 00
+       minutes: 03
+       seconds: 00
+# Turn on Aventage Zone 2
+action:
+  - service: media_player.turn_on
+    entity_id: media_player.yamaha_receiver_zone_2
+  - delay: 00:00:02
+# Publish the current source to mqtt
+  - service: mqtt.publish
+    data_template:
+     topic: "zone2/source"
+     retain: true
+     payload: '{{ states.media_player.yamaha_receiver_zone_2.attributes.source }}'
+# Change input to AUDIO2 - Chromecast Audio
+  - service: media_player.select_source
+    entity_id: media_player.yamaha_receiver_zone_2
+    data:
+        source: "AUDIO3"
+  # - delay: 00:00:03
+# Turn on Kitchen Speakers
+  - service: switch.turn_on
+    entity_id: switch.kicthen_speakers
+  - delay: 00:00:01
+# Turn on Patio Speakers
+  - service: switch.turn_on
+    entity_id: switch.patio_speakers
+  - delay: 00:00:01
+# Turn on Living Background Speakers
+  - service: switch.turn_on
+    entity_id: switch.living_speakers
+  - delay: 00:00:01
+# Turn on All Bedroom Speakers
+# TO DO only if guest mode is off
+  - service: switch.turn_on
+    entity_id: switch.room_speakers
+  - delay: 00:00:01
+# Say it
+  - service: tts.google_say
+    entity_id: media_player.zone3
+    data:
+      message: 'Garage Door Left Opened, Please Check. '
+  - delay: 00:00:15
+# Say it again in 15 Seconds
+  - service: tts.google_say
+    entity_id: media_player.zone3
+    data:
+         message: 'Garage Door Left Opened, Please Check.  '
+  - delay: 00:00:05
+# Return Zone 2 Back to Previous Source
+  - service: media_player.select_source
+    entity_id: media_player.yamaha_receiver_zone_2
+    data_template:
+        source: >
+           {{ states("sensor.zone_2_source") }}
+# Turn off Aventage Zone 2
+  - service: media_player.turn_off
+    entity_id: media_player.yamaha_receiver_zone_2
