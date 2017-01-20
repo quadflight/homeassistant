@@ -1,7 +1,0 @@
-garage_click:
-  sequence:
-    - service: switch.turn_on
-      entity_id: switch.garage_door_switch_1
-    - delay: '00:00:02'
-    - service: switch.turn_off
-      entity_id: switch.garage_door_switch_1
