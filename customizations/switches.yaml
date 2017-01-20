@@ -1,0 +1,47 @@
+switch.kicthen_speakers:
+        friendly_name: Kitchen Speakers
+        icon: mdi:speaker
+        assumed_state: true
+switch.patio_speakers:
+        friendly_name: Patio Speakers
+        icon: mdi:speaker
+        assumed_state: true
+switch.living_speakers:
+        friendly_name: Living Room Speakers
+        icon: mdi:speaker
+        assumed_state: true
+switch.room_speakers:
+        friendly_name: Bedroom Speakers
+        icon: mdi:speaker
+        assumed_state: true
+switch.pool_speakers:
+        friendly_name: Pool Speakers
+        icon: mdi:speaker
+        assumed_state: true
+switch.guest_speakers:
+        friendly_name: Guest Speakers
+        icon: mdi:speaker
+        assumed_state: true
+switch.garden_speakers:
+        friendly_name: Back Garden Speakers
+        icon: mdi:speaker
+        assumed_state: true
+switch.rgbw_cabinet_animation_storm:
+        friendly_name: Cabinet Storm Animation
+        icon: mdi:weather-lightning
+
+switch.rgbw_cabinet_animation_fireplace:
+        friendly_name: Cabinet Fireplace Animation
+        icon: mdi:fire
+
+switch.rgbw_cabinet_animation_aurora:
+        friendly_name: Cabinet Aurora Animation
+        icon: mdi:cursor-move
+
+switch.rgbw_cabinet_animation_lapd:
+        friendly_name: Cabinet LAPD Animation
+        icon: mdi:human-handsup
+
+switch.rgbw_cabinet_animation_rainbow:
+        friendly_name: Cabinet Rainbow Animation
+        icon: mdi:lightbulb-outline
