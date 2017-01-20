@@ -1,0 +1,44 @@
+########################################################
+# Turn off Living Room Front Area Lights if No Motion
+########################################################
+alias: Living Front Area Last Tripped Test
+########################################################
+# Check every 15 minutes
+########################################################
+trigger:
+  platform: time
+  minutes: '/15'
+  seconds: 00
+condition:
+ condition: and
+ conditions:
+########################################################
+# Check Living Front Area Lights are On for at least 2 minutes
+########################################################
+  - condition: state
+    entity_id: group.living_room_lights
+    state: 'on'
+    for: 00:02:00
+
+########################################################
+# Check Guest Mode is Off
+########################################################
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+########################################################
+# Check since last tripped, if more than X minutes True
+# Time in seconds
+# Check drive way motion last tripped  5 minutes
+# Check front door sensor last tripped 5 minutes
+# Check Living Front Cam Last tripped 3 minutes
+########################################################
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.switch.drive_way_motion_sensor_1.attributes.last_tripped_time) > 300}}'
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.switch.front_door_sensor.attributes.last_tripped_time) > 300}}'
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.binary_sensor.living_cam_motion.attributes.last_tripped_time) > 180}}'
+action:
+  service: homeassistant.turn_off
+  entity_id: group.living_room_lights

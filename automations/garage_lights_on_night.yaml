@@ -1,0 +1,20 @@
+# Turn on garage lights on door open at night
+# Check Sun Elevation is below 0.5
+alias: Turn on Pool Light Motion
+trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_door_sensor_1
+    to: 'on'
+
+condition:
+  condition: and
+  conditions:
+    - condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+      below: 0.5
+action:
+  - service: switch.turn_on
+    entity_id: switch.garage_light_2
+#  - service: switch.turn_on
+#    entity_id: sswitch.garage_main_light

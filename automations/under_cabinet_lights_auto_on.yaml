@@ -1,0 +1,26 @@
+########################################################
+# Turn on under cabinet lights based on distance to counter
+########################################################
+alias: Under Cabinet LED Auto On
+########################################################
+# Check distance: 1" to 40"
+########################################################
+trigger:
+  - platform: state
+    entity_id: binary_sensor.cabinet
+    to: 'on'
+########################################################
+# Check LED White is off
+########################################################
+condition:
+  condition: and
+  conditions:
+    - condition: state
+      entity_id: light.white
+      state: 'off'
+########################################################
+# Turn on LED White
+########################################################
+action:
+  - service: light.turn_on
+    entity_id: light.white

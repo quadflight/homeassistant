@@ -1,0 +1,37 @@
+########################################################
+# Turn Garage lights Off if garage is closed and no motion is detected last 3 minutes
+########################################################
+alias: Turn Garage Lights Off on Close
+########################################################
+# Check every 2 minutes
+########################################################
+trigger:
+  platform: time
+  minutes: '/2'
+  seconds: 00
+condition:
+ condition: and
+ conditions:
+########################################################
+# Check Pool Lights on for 1 minute. Manual on Fix
+########################################################
+  - condition: state
+    entity_id: group.garage_lights
+    state: 'on'
+    for: 00:01:00
+  - condition: state
+    entity_id: binary_sensor.garage_door_sensor_1
+    state: 'off'
+
+
+########################################################
+# Check since last tripped, if more than 5 minutes True
+# Time in seconds
+########################################################
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.binary_sensor.garage_pir_motion_1.attributes.last_tripped_time) > 150}}'
+action:
+  - service: switch.turn_off
+    entity_id: switch.garage_light_2
+#  - service: switch.turn_on
+#    entity_id: sswitch.garage_main_light

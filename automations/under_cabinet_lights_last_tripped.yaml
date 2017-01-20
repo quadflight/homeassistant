@@ -1,0 +1,38 @@
+########################################################
+# Turn Under Cabinet LEDS Off if no one is in front of the counter
+# Distance 1" to 40" from the Sonar Sensor is Active state
+########################################################
+alias: Under Cabinet LEDs Last Tripped
+########################################################
+# Check every 2 minutes
+########################################################
+trigger:
+  platform: time
+  minutes: '/1'
+  seconds: 00
+condition:
+ condition: and
+ conditions:
+########################################################
+# Check Lights on for 1 at least a minute. Manual on Fix
+########################################################
+  - condition: state
+    entity_id: light.white
+    state: 'on'
+    for: 00:00:30
+    
+########################################################
+# Check Guest Mode is Off
+########################################################
+  # - condition: state
+    # entity_id: input_boolean.guest_mode
+    # state: 'off'
+########################################################
+# Check since last tripped, if more than 3 minutes True
+# Time in seconds
+########################################################
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.binary_sensor.cabinet.last_changed) > 120}}'
+action:
+  - service: light.turn_off
+    entity_id: light.white

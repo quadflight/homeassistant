@@ -1,0 +1,37 @@
+# Turn on MYFM Mornings
+alias: Morning Play MYFM
+trigger:
+  platform: time
+  after: '06:35:00'
+
+condition:
+  condition: time
+  weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+action:
+  - service: media_player.turn_on
+    entity_id: media_player.yamaha_receiver_zone_2
+  - service: media_player.select_source
+    entity_id: media_player.yamaha_receiver_zone_2
+    data:
+        source: "AUDIO3"
+# Turn on Kitchen Speakers
+  - service: switch.turn_on
+    entity_id: switch.kicthen_speakers
+  - delay: 00:00:01
+# Turn on Room Speakers
+  - service: switch.turn_on
+    entity_id: switch.room_speakers
+  - delay: 00:00:01
+# Turn on Living Background Speakers
+  - service: switch.turn_on
+    entity_id: switch.living_speakers
+  - delay: 00:00:01
+# Play MyFM
+  - service: script.turn_on
+    entity_id: script.play_myfm_zone3
