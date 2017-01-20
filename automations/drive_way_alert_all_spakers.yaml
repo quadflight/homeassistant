@@ -1,0 +1,63 @@
+################################################################
+# Drive way IR Beam Crossed alert
+################################################################
+alias: Drive way IR Beam Crossed alert
+trigger:
+  - platform: state
+    entity_id: binary_sensor.drive_way_motion_sensor_1
+    to: 'on'
+
+# Turn on Aventage Zone 2
+action:
+  - service: media_player.turn_on
+    entity_id: media_player.yamaha_receiver_zone_2
+  - delay: 00:00:02
+# Publish the current source to mqtt
+  - service: mqtt.publish
+    data_template:
+     topic: "zone2/source"
+     retain: true
+     payload: '{{ states.media_player.yamaha_receiver_zone_2.attributes.source }}'
+# Change input to PC - DLNA Client
+  - service: media_player.select_source
+    entity_id: media_player.yamaha_receiver_zone_2
+    data:
+        source: "PC"
+  - delay: 00:00:01
+# Turn on Kitchen Speakers
+  - service: switch.turn_on
+    entity_id: switch.kicthen_speakers
+  - delay: 00:00:01
+# Turn on Patio Speakers
+  - service: switch.turn_on
+    entity_id: switch.patio_speakers
+  - delay: 00:00:01
+# Turn on Living Background Speakers
+  - service: switch.turn_on
+    entity_id: switch.living_speakers
+  - delay: 00:00:01
+# Turn on All Bedroom Speakers
+# TO DO only if guest mode is off
+  - service: switch.turn_on
+    entity_id: switch.room_speakers
+  - delay: 00:00:01
+# Play Chime audio from synology DLNA server
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.yamaha_receiver_zone_2
+      media_content_id: http://192.168.2.10:50002/m/NDLNA/610661.wav
+      media_content_type: audio/mp4
+  - delay: 00:00:01
+# Play Chime audio from synology DLNA server
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.yamaha_receiver_zone_2
+      media_content_id: http://192.168.2.10:50002/m/NDLNA/610661.wav
+      media_content_type: audio/mp4
+  - delay: 00:00:05
+# Return Zone 2 Back to Previous Source
+  - service: media_player.select_source
+    entity_id: media_player.yamaha_receiver_zone_2
+    data_template:
+        source: >
+           {{ states("sensor.zone_2_source") }}
