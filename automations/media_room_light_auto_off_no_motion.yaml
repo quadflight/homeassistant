@@ -1,0 +1,46 @@
+# Turn of Media Room Lights if No Motion is detected for 4 minutes
+# Don't turn off if TV is ON, might be eating food, use longer timeout 
+# Don't Turn off if guests are in
+# Don't Turn off if playing records, need light
+# Turn off only if passing through media room 
+alias: Media Room Light Auto Off No Motion 4 Minutes
+trigger:
+  - platform: state
+    entity_id: binary_sensor.media_room_motion
+    from: 'on'
+    to: 'off'
+    state: 'off'
+    for:
+        hours: 00
+        minutes: 05
+        seconds: 00
+condition:
+ condition: and
+ conditions:
+ # Check Media Room Light On
+  - condition: state
+    entity_id: switch.media_room_light
+    state: 'on'
+ # Check TV is off // Food + TV need lights :-)
+  - condition: state
+    entity_id: media_player.samsung_tv_remote
+    state: 'off'
+# Check Guest Mode is On
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+# Check Playing Records
+# Current Aventage Input "AUDIO1" with CAT 5 Balun >> returns false stopping the condition. 
+######## NOTE: CHANGE TO AUDIO2 if MUX is used. ADD Y FOR ZONE 2 ZONE 3
+# Any other source will return true, go ahead turn off the light
+  - condition: template
+    value_template: >-
+        {%- if is_state_attr("media_player.yamaha_receiver", "source", "AUDIO1") -%}
+        false
+        {% else %}
+        true
+        {%- endif -%}
+# Just passing through turn off the lights
+action:
+   - service: switch.turn_off
+     entity_id: switch.media_room_light

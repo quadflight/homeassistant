@@ -1,0 +1,20 @@
+# Turn on patio light on motion and start timer at night
+# Check Sun Elevation is below 0.5
+alias: Media Room Light Turn On Motion at Night
+trigger:
+  platform: state
+  entity_id: binary_sensor.media_room_motion
+  to: 'on'
+condition:
+  condition: and
+  conditions:
+    - condition: state
+      entity_id: switch.media_room_light
+      state: 'off'
+    - condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+      below: 0.5
+action:
+  service: switch.turn_on
+  entity_id: switch.media_room_light
