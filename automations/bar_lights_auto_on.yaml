@@ -1,0 +1,22 @@
+# Turn bar lights on motion
+# Check Sun Elevation is below 0.5
+alias: Turn on Bar Lights on Motion
+trigger:
+  - platform: state
+    entity_id: binary_sensor.ecolink_pir_bar_area_motion_sensor_14_0
+    from: 'off'
+    to: 'on'
+
+condition:
+  condition: and
+  conditions:
+    - condition: state
+      entity_id: light.bar_counter_light
+      state: 'off'
+    # - condition: numeric_state
+    #   entity_id: sun.sun
+    #   value_template: '{{ state.attributes.elevation }}'
+    #   below: -7
+action:
+  - service: light.turn_on
+    entity_id: light.bar_counter_light
