@@ -1,0 +1,37 @@
+#######################################################
+# Garage Open Alert While S7E Away
+#######################################################
+alias: Garage Open Alert S7E Away
+#######################################################
+# When garage door is opened
+#######################################################
+trigger:
+  platform: state
+  entity_id: binary_sensor.garage_door_sensor_1
+  from: 'off'
+  to: 'on'
+condition:
+ condition: and
+ conditions:
+#######################################################
+# S7E not_home
+#######################################################
+  - condition: state
+    entity_id: device_tracker.hauser_s7e
+    state: 'not_home'
+
+
+#######################################################
+# GCM Notify and Send Text
+#######################################################
+action:
+  - service: notify.push_gcm
+    data_template:
+      title: "Garage Door"
+      message:  "The garage was opened at - {{ as_timestamp(now()) | timestamp_custom('%I:%M:%S %p') }}"
+  - service: notify.twil
+    data:
+        message: 'Garage opened'
+        target:
+          - !secret k_text
+          - !secret k_roaming
