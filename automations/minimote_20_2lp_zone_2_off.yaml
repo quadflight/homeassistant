@@ -1,0 +1,10 @@
+alias: Minimote 20 Button 2 Long Press Zone 2 Off
+trigger:
+  platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: aeotec_dsa03202_minimote_20
+    scene_id: 4
+action:
+  - service: media_player.turn_off
+    entity_id: media_player.yamaha_receiver_zone_2

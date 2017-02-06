@@ -1,0 +1,10 @@
+alias: Minimote 20 Button 2 Short Press Play Radio X
+trigger:
+  platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: aeotec_dsa03202_minimote_20
+    scene_id: 3
+action:
+  service: homeassistant.turn_on
+  entity_id: script.play_uk_radio_x_zone3

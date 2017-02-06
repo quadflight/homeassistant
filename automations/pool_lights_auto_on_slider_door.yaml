@@ -1,0 +1,24 @@
+# Turn on pool side lights on Slider Open
+# Check Sun Elevation is below 0
+alias: Turn on Pool Light Slider
+trigger:
+  - platform: state
+    entity_id: sensor.den_pool_sliding_door
+    from: 'closed'
+    to: 'open'
+
+condition:
+  condition: and
+  conditions:
+    - condition: state
+      entity_id: group.pool_lights
+      state: 'off'
+    - condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+      below: 0
+action:
+  - service: switch.turn_on
+    entity_id: switch.pool_patio_light
+  - service: switch.turn_on
+    entity_id: switch.pool_side_light

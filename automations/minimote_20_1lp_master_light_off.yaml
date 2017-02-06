@@ -1,0 +1,10 @@
+alias: Minimote 20 Button 1 Long Press Master Light Off
+trigger:
+  platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: aeotec_dsa03202_minimote_20
+    scene_id: 2
+action:
+  service: switch.turn_off
+  entity_id: switch.master_light

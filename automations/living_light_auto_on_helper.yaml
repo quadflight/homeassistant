@@ -1,0 +1,22 @@
+# Turn living light helper on motion
+# Check Sun Elevation is below 0.5
+alias: Turn on Living Light Helper
+trigger:
+  - platform: state
+    entity_id: sensor.aeotec_living_area_front_sensor_12_0
+    from: 'off'
+    to: 'on'
+
+condition:
+  condition: and
+  conditions:
+    - condition: state
+      entity_id: switch.living_room_light
+      state: 'off'
+    - condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+      below: 0
+action:
+  - service: switch.turn_on
+    entity_id: switch.living_room_light
