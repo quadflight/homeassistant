@@ -1,0 +1,84 @@
+######################################################################################################
+#Amazon Polly Notify
+######################################################################################################
+
+amazon_polly_notify:
+  sequence:
+# Publish the current zone 2 state to mqtt
+  - service: mqtt.publish
+    data_template:
+     topic: "zone2/power"
+     retain: true
+     payload: '{{ states.media_player.yamaha_receiver_zone_2.state }}'
+  - service: media_player.turn_on
+    entity_id: media_player.yamaha_receiver_zone_2
+  - delay: 00:00:02
+# Publish the current source to mqtt
+  - service: mqtt.publish
+    data_template:
+     topic: "zone2/source"
+     retain: true
+     payload: '{{ states.media_player.yamaha_receiver_zone_2.attributes.source }}'
+  - delay: 00:00:01
+# Change input to AUDIO 3 -
+  - service: media_player.select_source
+    entity_id: media_player.yamaha_receiver_zone_2
+    data:
+        source: "AUDIO3"
+  - delay: 00:00:01
+# Save current volume
+  - service: mqtt.publish
+    data_template:
+     topic: "zone2/volume"
+     retain: true
+     payload: '{{ states.media_player.yamaha_receiver_zone_2.attributes.volume_level }}'
+  - service: media_player.volume_set
+    entity_id: media_player.yamaha_receiver_zone_2
+    data:
+        volume_level: "0.85"
+  - delay: 00:00:01
+# Save zone3 Current State
+  - service: mqtt.publish
+    data_template:
+     topic: "zone3/status"
+     retain: true
+     payload: '{{ states.media_player.zone3.state }}'
+# Save MPD Current State
+  - service: mqtt.publish
+    data_template:
+     topic: "mpd/status"
+     retain: true
+     payload: '{{ states.media_player.mpd.state }}'
+# Say it with Amazon Polly
+  - service: tts.amazon_polly_say
+    entity_id: media_player.zone3
+    data_template:
+      message: >
+        {% if now().strftime("%H")|int < 12 %}
+        "Good morning.
+        {% elif now().strftime("%H")|int < 18 %}
+        "Good afternoon.
+        {% else %}
+        "Good evening.
+        {% endif %}
+        {{ value1 }}"
+      cache: true
+  - delay: 00:00:08
+# Return Zone 2 Back to Previous Source
+  - service: media_player.select_source
+    entity_id: media_player.yamaha_receiver_zone_2
+    data_template:
+        source: >
+           {{ states("sensor.zone_2_source") }}
+# Return Zone 2 Back to Previous Volume Level
+  - service: media_player.volume_set
+    entity_id: media_player.yamaha_receiver_zone_2
+    data_template:
+        volume_level: >
+           {{ states("sensor.zone_2_volume") }}
+  # - service: media_player.turn_off
+  #   entity_id: media_player.yamaha_receiver_zone_2
+  - delay: 00:00:01
+  - service_template: >
+        {{ 'media_player.turn_off' if ((states.sensor.mpd_status.state == "idle" or states.sensor.mpd_status.state == "off") and (states.sensor.zone3_status.state == "off" or states.sensor.zone3_status.state == "idle") and (states.sensor.zone_2_power.state == "off")) else 'media_player.turn_on' }}
+    entity_id: media_player.yamaha_receiver_zone_2
