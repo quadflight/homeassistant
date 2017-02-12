@@ -25,4 +25,4 @@ condition:
 action:
   - service: script.amazon_polly_notify
     data_template:
-      value1: "Traffic update. If you leave now, you will arrive at work around '{{ ((as_timestamp(now()) + (states.sensor.drive_to_chase.state | int * 60)) | timestamp_custom('%H:%M', True)) }}'"
+      value1: "Traffic update. If you leave now, you will arrive at work around '{{ ((as_timestamp(now()) + (states.sensor.drive_to_work.state | int * 60)) | timestamp_custom('%H:%M', True)) }}'"
