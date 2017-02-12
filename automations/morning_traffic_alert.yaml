@@ -1,0 +1,28 @@
+# Traffic status Alert every 15 minutes
+alias: Morning Traffic Alert
+trigger:
+  platform: time
+  minutes: '/15'
+  seconds: 00
+
+condition:
+ condition: and
+ conditions:
+  - condition: time
+    after: '06:30:00'
+    before: '08:00:00'
+    weekday:
+     - mon
+     - tue
+     - wed
+     - thu
+     - fri
+     - sat
+  - condition: state
+    entity_id: device_tracker.iphone
+    state : 'home'
+
+action:
+  - service: script.amazon_polly_notify
+    data_template:
+      value1: "Traffic update. If you leave now, you will arrive at work around '{{ ((as_timestamp(now()) + (states.sensor.drive_to_chase.state | int * 60)) | timestamp_custom('%H:%M', True)) }}'"
