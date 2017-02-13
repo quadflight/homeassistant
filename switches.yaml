@@ -1,0 +1,41 @@
+- platform: command_line
+  switches:
+    kicthen_speakers:
+      command_off: "/usr/bin/curl -X GET http://192.168.2.36/?1"
+      command_on: "/usr/bin/curl -X GET http://192.168.2.36/?2"
+    patio_speakers:
+      command_off: "/usr/bin/curl -X GET http://192.168.2.36/?3"
+      command_on: "/usr/bin/curl -X GET http://192.168.2.36/?4"
+    living_speakers:
+      command_off: "/usr/bin/curl -X GET http://192.168.2.36/?5"
+      command_on: "/usr/bin/curl -X GET http://192.168.2.36/?6"
+    room_speakers:
+      command_off: "/usr/bin/curl -X GET http://192.168.2.36/?7"
+      command_on: "/usr/bin/curl -X GET http://192.168.2.36/?8"
+    pool_speakers:
+      command_off: "/usr/bin/curl -X GET http://192.168.2.36/?a"
+      command_on: "/usr/bin/curl -X GET http://192.168.2.36/?b"
+    guest_speakers:
+      command_off: "/usr/bin/curl -X GET http://192.168.2.36/?c"
+      command_on: "/usr/bin/curl -X GET http://192.168.2.36/?d"
+    garden_speakers:
+      command_off: "/usr/bin/curl -X GET http://192.168.2.36/?e"
+      command_on: "/usr/bin/curl -X GET http://192.168.2.36/?f"                    
+    rgbw_cabinet_animation_storm:
+      command_off: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=73"'
+      command_on: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=72"'
+    rgbw_cabinet_animation_fireplace:
+      command_off: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=73"'
+      command_on: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=74"'
+    rgbw_cabinet_animation_aurora:
+      command_off: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=73"'
+      command_on: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=75"'
+    rgbw_cabinet_animation_lapd:
+      command_off: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=73"'
+      command_on: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=76"'
+    rgbw_cabinet_animation_rainbow:
+      command_off: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=73"'
+      command_on: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=77"'
+
+- platform: wake_on_lan
+  mac_address: "30-85-A9-49-94-8C"
