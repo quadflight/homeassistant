@@ -37,5 +37,3 @@
       command_off: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=73"'
       command_on: 'curl GET "http://192.168.2.50:3480/data_request?id=lu_action&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&action=RunScene&SceneNum=77"'
 
-- platform: wake_on_lan
-  mac_address: "30-85-A9-49-94-8C"
