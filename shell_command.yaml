@@ -1,0 +1,13 @@
+  yamaha_net_radio_preset_1_radio_x: /home/homeassistant/.homeassistant/bscripts/preset_1_radio_x_london.sh
+  yamaha_net_radio_preset_2_radio_heart: /home/homeassistant/.homeassistant/bscripts/preset_2_radio_heart_london.sh
+  yamaha_net_radio_preset_3_radio_slowradio: /home/homeassistant/.homeassistant/bscripts/preset_3_radio_slowradio.sh
+  yamaha_net_radio_preset_4_radio_capital: /home/homeassistant/.homeassistant/bscripts/preset_4_radio_capital.sh
+  yamaha_net_radio_preset_5_radio_tnl: /home/homeassistant/.homeassistant/bscripts/preset_5_radio_tnl.sh
+  yamaha_net_radio_preset_6_radio_absoluterelax: /home/homeassistant/.homeassistant/bscripts/preset_6_radio_absoluterelax.sh
+  yamaha_net_radio_preset_7_radio_skyradio: /home/homeassistant/.homeassistant/bscripts/preset_7_radio_skyradio.sh
+  yamaha_net_radio_preset_8_radio_lite80s: /home/homeassistant/.homeassistant/bscripts/preset_8_radio_lite80s.sh
+  yamaha_net_radio_preset_9_radio_regensoft: /home/homeassistant/.homeassistant/bscripts/preset_9_radio_regensoft.sh
+  yamaha_net_radio_preset_10_radio_ukblues: /home/homeassistant/.homeassistant/bscripts/preset_10_radio_ukblues.sh
+  yamaha_net_radio_preset_11_radio_groovesalad: /home/homeassistant/.homeassistant/bscripts/preset_11_radio_groovesalad.sh
+  yamaha_net_radio_preset_12_radio_sunshine_electronica: /home/homeassistant/.homeassistant/bscripts/preset_12_radio_sunshine_electronica.sh
+  cnn: /usr/bin/node /home/nuc/harmonyHubCLI/harmonyHubCli.js -l 192.168.2.171 -d 'DirecTV DVR'   -c '["2","0", "2"]' -m
