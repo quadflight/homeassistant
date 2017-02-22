@@ -1,0 +1,24 @@
+play_cnn_zone2:
+  alias: Play CNN Zone 2
+  sequence:
+    - service: media_player.turn_on
+      entity_id: media_player.directv_receiver
+    - service: shell_command.cnn
+
+    - service: media_player.turn_on
+      entity_id: media_player.yamaha_receiver_zone_2
+    - service: media_player.volume_set
+      entity_id: media_player.yamaha_receiver_zone_2
+      data_template:
+        volume_level: >
+          {% if now().strftime("%H")|int < 8 %}
+          0.75
+          {% elif now().strftime("%H")|int < 21 %}
+          0.8
+          {% else %}
+          0.7
+          {% endif %}
+    - service: media_player.select_source
+      entity_id: media_player.yamaha_receiver_zone_2
+      data:
+          source: "AV2"
