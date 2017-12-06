@@ -1,0 +1,242 @@
+shell_command:
+  garden_led_rgbw_gradual1: /usr/bin/python3 -m flux_led 192.168.2.54 -C gradual 50 '(255,0,0) (0,255,0) (10,150,255) (150,150,150)'
+  garden_led_rgbw_gradual2: /usr/bin/python3 -m flux_led 192.168.2.54 -C gradual 10 '(255,200,0) (0,255,150) (75,0,255) (255,150,255)'
+  garden_led_rgbw_gradual3: /usr/bin/python3 -m flux_led 192.168.2.54 -C gradual 20 '(0,25,100) (0,255,0) (0,0,255) (150,165,200)'
+  garden_led_rgbw_gradual4: /usr/bin/python3 -m flux_led 192.168.2.54 -C gradual 30 '(50,0,85) (0,20,0) (20,0,255) (150,35,150)'
+  garden_led_rgbw_gradual5: /usr/bin/python3 -m flux_led 192.168.2.54 -C gradual 50 '(100,65,35) (0,20,0) (0,35,255) (150,150,150)'
+  garden_led_rgbw_gradual6: /usr/bin/python3 -m flux_led 192.168.2.54 -C gradual 80 '(125,0,45) (0,90,200) (30,0,255) (18,150,150)'
+  garden_led_rgbw_gradual7: /usr/bin/python3 -m flux_led 192.168.2.54 -C gradual 60 '(135,110,55) (155,255,0) (0,80,255) (15,65,150)'
+  garden_led_rgbw_gradual8: /usr/bin/python3 -m flux_led 192.168.2.54 -C gradual 10 '(255,60,0) (20,10,0) (0,55,255) (20,150,150)'
+  garden_led_rgbw_gradual9: /usr/bin/python3 -m flux_led 192.168.2.54 -C gradual 50 '(230,0,85) (50,255,180) (45,0,245) (150,15,10)'
+  garden_led_rgbw_gradual10: /usr/bin/python3 -m flux_led 192.168.2.54 -C gradual 70 '(185,50,45) (0,255,0) (0,0,255) (55,150,110)'
+  garden_led_rgbw_jump1: /usr/bin/python3 -m flux_led 192.168.2.54 -C jump 50 '(255,0,0) (0,255,0) (10,150,255) (150,150,150)'
+  garden_led_rgbw_jump2: /usr/bin/python3 -m flux_led 192.168.2.54 -C jump 10 '(255,200,0) (0,255,150) (75,0,255) (255,150,255)'
+  garden_led_rgbw_jump3: /usr/bin/python3 -m flux_led 192.168.2.54 -C jump 20 '(0,25,100) (0,255,0) (0,0,255) (150,165,200)'
+  garden_led_rgbw_jump4: /usr/bin/python3 -m flux_led 192.168.2.54 -C jump 30 '(50,0,85) (0,20,0) (20,0,255) (150,35,150)'
+  garden_led_rgbw_jump5: /usr/bin/python3 -m flux_led 192.168.2.54 -C jump 50 '(100,65,35) (0,20,0) (0,35,255) (150,150,150)'
+  garden_led_rgbw_jump6: /usr/bin/python3 -m flux_led 192.168.2.54 -C jump 80 '(125,0,45) (0,90,200) (30,0,255) (18,150,150)'
+  garden_led_rgbw_jump7: /usr/bin/python3 -m flux_led 192.168.2.54 -C jump 60 '(135,110,55) (155,255,0) (0,80,255) (15,65,150)'
+  garden_led_rgbw_jump8: /usr/bin/python3 -m flux_led 192.168.2.54 -C jump 10 '(255,60,0) (20,10,0) (0,55,255) (20,150,150)'
+  garden_led_rgbw_jump9: /usr/bin/python3 -m flux_led 192.168.2.54 -C jump 50 '(230,0,85) (50,255,180) (45,0,245) (150,15,10)'
+  garden_led_rgbw_jump10: /usr/bin/python3 -m flux_led 192.168.2.54 -C jump 70 '(185,50,45) (0,255,0) (0,0,255) (55,150,110)'
+  garden_led_rgbw_strobe1: /usr/bin/python3 -m flux_led 192.168.2.54 -C strobe 50 '(255,0,0) (0,255,0) (10,150,255) (150,150,150)'
+  garden_led_rgbw_strobe2: /usr/bin/python3 -m flux_led 192.168.2.54 -C strobe 10 '(255,200,0) (0,255,150) (75,0,255) (255,150,255)'
+  garden_led_rgbw_strobe3: /usr/bin/python3 -m flux_led 192.168.2.54 -C strobe 20 '(0,25,100) (0,255,0) (0,0,255) (150,165,200)'
+  garden_led_rgbw_strobe4: /usr/bin/python3 -m flux_led 192.168.2.54 -C strobe 30 '(50,0,85) (0,20,0) (20,0,255) (150,35,150)'
+  garden_led_rgbw_strobe5: /usr/bin/python3 -m flux_led 192.168.2.54 -C strobe 50 '(100,65,35) (0,20,0) (0,35,255) (150,150,150)'
+  garden_led_rgbw_strobe6: /usr/bin/python3 -m flux_led 192.168.2.54 -C strobe 80 '(125,0,45) (0,90,200) (30,0,255) (18,150,150)'
+  garden_led_rgbw_strobe7: /usr/bin/python3 -m flux_led 192.168.2.54 -C strobe 60 '(135,110,55) (155,255,0) (0,80,255) (15,65,150)'
+  garden_led_rgbw_strobe8: /usr/bin/python3 -m flux_led 192.168.2.54 -C strobe 10 '(255,60,0) (20,10,0) (0,55,255) (20,150,150)'
+  garden_led_rgbw_strobe9: /usr/bin/python3 -m flux_led 192.168.2.54 -C strobe 50 '(230,0,85) (50,255,180) (45,0,245) (150,15,10)'
+  garden_led_rgbw_strobe10: /usr/bin/python3 -m flux_led 192.168.2.54 -C strobe 70 '(185,50,45) (0,255,0) (0,0,255) (55,150,110)'
+
+input_boolean:
+  front_garden_random_led:
+    name: Front Garden Random LEDs
+    initial: off
+
+
+automation:
+
+  - id: front_garden_random_fades
+    alias: Front Garden Random Fades
+    initial_state: 'on'
+    trigger:
+      - platform: time
+        minutes: '/5'
+        seconds: 00
+    condition:
+     condition: and
+     conditions:
+      - condition: time
+        after: '19:00:00'
+        before: '22:00:00'
+      - condition: numeric_state
+        entity_id: sensor.aeotec_kitchen_primary_luminance
+        below: 40
+      - condition: numeric_state
+        entity_id: sun.sun
+        value_template: '{{ state.attributes.elevation }}'
+        below: -3.5
+
+    action:
+      - service: script.turn_on
+        data_template:
+          entity_id: >
+            {{ [
+                 'script.front_garden_random',
+                 'script.front_garden_random_custom'
+               ] |random }}
+
+
+
+  - id: drive_way_crossed_strobe_fades
+    alias: Drive Alert Stobe Fade
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.drive_way_motion_sensor_1_188
+        to: 'on'
+    condition:
+     condition: and
+     conditions:
+      - condition: time
+        after: '20:00:00'
+        before: '22:00:00'
+      - condition: numeric_state
+        entity_id: sensor.patio_lux
+        below: 5
+    action:
+      service: homeassistant.turn_on
+      entity_id: script.front_garden_red_white_stobe
+
+
+  - id: drive_way_crossed_strobe_stop_1
+    alias: Drive Alert Stobe Stop 1
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.drive_way_motion_sensor_1_188
+        to: 'on'
+    condition:
+     condition: and
+     conditions:
+      - condition: time
+        after: '22:01:00'
+        before: '23:59:59'
+      - condition: numeric_state
+        entity_id: sensor.patio_lux
+        below: 5
+    action:
+      service: homeassistant.turn_on
+      entity_id: script.front_garden_red_white_stobe_stop
+
+
+  - id: drive_way_crossed_strobe_stop_2
+    alias: Drive Alert Stobe Stop 2
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.drive_way_motion_sensor_1_188
+        to: 'on'
+    condition:
+     condition: and
+     conditions:
+      - condition: time
+        after: '00:00:01'
+        before: '06:00:00'
+      - condition: numeric_state
+        entity_id: sensor.aeotec_kitchen_primary_luminance
+        below: 40
+    action:
+      service: homeassistant.turn_on
+      entity_id: script.front_garden_red_white_stobe_stop
+
+
+  - id: front_garden_turn_off
+    alias: Front Garden Random Fade Off
+    initial_state: 'on'
+    trigger:
+      - platform: time
+        at: '22:01:00'
+
+
+    action:
+      service: homeassistant.turn_off
+      entity_id: light.garden_led
+
+
+script:
+
+  front_garden_red_white_stobe:
+    alias: "Front Garden Red White Strobe"
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.garden_led
+        effect: 'red_strobe'
+    - delay: 00:00:10
+    - service: light.turn_on
+      data:
+        entity_id: light.garden_led
+        effect: 'white_strobe'
+    - delay: 00:00:05
+    - service: light.turn_on
+      data:
+        entity_id: light.garden_led
+        effect: 'red_strobe'
+    - delay: 00:00:10
+    - service: homeassistant.turn_on
+      entity_id: script.front_garden_random
+
+
+  front_garden_red_white_stobe_stop:
+    alias: "Front Garden Red White Strobe"
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.garden_led
+        effect: 'red_strobe'
+    - delay: 00:00:10
+    - service: light.turn_on
+      data:
+        entity_id: light.garden_led
+        effect: 'white_strobe'
+    - delay: 00:00:05
+    - service: light.turn_on
+      data:
+        entity_id: light.garden_led
+        effect: 'red_strobe'
+    - delay: 00:00:10
+    - service: light.turn_off
+      entity_id: light.garden_led
+
+
+  front_garden_random:
+    alias: "Front Garden Random Dim Fade"
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.garden_led
+      data_template:
+        rgb_color: ['{{ "{0:d}".format(range(10, 100)|random) }}' , '{{ "{0:d}".format(range(10, 100)|random) }}', '{{ "{0:d}".format(range(10, 100)|random) }}']
+
+  front_garden_random_custom:
+    alias: "Front Garden Random Custom"
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.garden_led
+    - service_template: >
+          {{ [
+           'shell_command.garden_led_rgbw_gradual1',
+           'shell_command.garden_led_rgbw_gradual2',
+           'shell_command.garden_led_rgbw_gradual3',
+           'shell_command.garden_led_rgbw_gradual4',
+           'shell_command.garden_led_rgbw_gradual5',
+           'shell_command.garden_led_rgbw_gradual6',
+           'shell_command.garden_led_rgbw_gradual7',
+           'shell_command.garden_led_rgbw_gradual8',
+           'shell_command.garden_led_rgbw_gradual9',
+           'shell_command.garden_led_rgbw_gradual10',
+           'shell_command.garden_led_rgbw_jump1',
+           'shell_command.garden_led_rgbw_jump2',
+           'shell_command.garden_led_rgbw_jump3',
+           'shell_command.garden_led_rgbw_jump4',
+           'shell_command.garden_led_rgbw_jump5',
+           'shell_command.garden_led_rgbw_jump6',
+           'shell_command.garden_led_rgbw_jump7',
+           'shell_command.garden_led_rgbw_jump8',
+           'shell_command.garden_led_rgbw_jump9',
+           'shell_command.garden_led_rgbw_jump10',
+           'shell_command.garden_led_rgbw_strobe1',
+           'shell_command.garden_led_rgbw_strobe2',
+           'shell_command.garden_led_rgbw_strobe3',
+           'shell_command.garden_led_rgbw_strobe4',
+           'shell_command.garden_led_rgbw_strobe5',
+           'shell_command.garden_led_rgbw_strobe6',
+           'shell_command.garden_led_rgbw_strobe7',
+           'shell_command.garden_led_rgbw_strobe8',
+           'shell_command.garden_led_rgbw_strobe9',
+           'shell_command.garden_led_rgbw_strobe10'
+           ] |random }}
