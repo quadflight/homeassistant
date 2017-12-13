@@ -1,15 +1,29 @@
-###################################################################################################################
-## Hide keep_alive switch
-###################################################################################################################
-homeassistant:
-  customize:
-    input_boolean.keep_alive:
-      hidden: true
+################################################################
+## Packages / Master Bath Control
+################################################################
 
-input_boolean:
-  keep_alive:
-    name: Dummy Switch
-    initial: on
+################################################
+## Input Number
+################################################
+
+input_number:
+  master_bath_humidity_threshold:
+    name: Master Bath Humidity Threshold
+    initial: 20
+    min: 0
+    max: 100
+    step: 1
+
+  master_bath_timeout:
+    name: Master Bath Time Out
+    initial: 5
+    min: 1
+    max: 60
+    step: 1
+
+################################################
+## Binary Sensor
+################################################
 
 binary_sensor:
   - platform: mqtt
@@ -19,214 +33,215 @@ binary_sensor:
     payload_on: "1"
     payload_off: "0"
     device_class: motion
+
   - platform: template
     sensors:
-###################################################################################################################
-## Humidity differnce compared to family room
-###################################################################################################################
+      ################################################
+      ## Humidity differnce compared to family room
+      ################################################
+
       master_bath_below_threshold:
         friendly_name: "Master Bath Humidity Below Threshold"
+        entity_id:
+          - sensor.master_bath_humidity_difference
+          - input_number.master_bath_humidity_threshold
         value_template: >-
-          {{ (states.sensor.master_bath_humidity_difference.state | int) < (states.input_number.master_bath_humidity_threshold.state | int) }}
-###################################################################################################################
-## Motion senor last changed is more than timeout
-###################################################################################################################
+          {{ states('sensor.master_bath_humidity_difference')|int < states('input_number.master_bath_humidity_threshold')|int }}
+
+      ################################################
+      ## Motion senor last changed is more than timeout
+      ################################################
+
       master_bath_timeout_threshold:
         friendly_name: "Master Bath Timeout Threshold"
-        entity_id: input_boolean.keep_alive
+        entity_id:
+          - sensor.time
+          - binary_sensor.master_bath_esp_motion
+          - input_number.master_bath_timeout
         value_template: >-
-          {{ ((as_timestamp(now()) |int - (as_timestamp(states.binary_sensor.master_bath_esp_motion.last_changed) | int) | int ) /60) | int > (states.input_number.master_bath_timeout.state | int) }}
+          {{ (as_timestamp(now()) - as_timestamp(states.binary_sensor.master_bath_esp_motion.last_changed)) / 60 > states('input_number.master_bath_timeout')|int }}
+
+      ################################################
+      ## Motion senor last changed is more than timeout
+      ################################################
+
+      master_bath_toilet_distance:
+        friendly_name: "Master Bath Toilet Distance"
+        entity_id:
+          - sensor.toilet_distance
+        value_template: >-
+            {{ states('sensor.toilet_distance') | int < 40 }}
+
+      ###############################################
+      # Combine all 3 sensors
+      ###############################################
+
+      master_bath_sensor_combo:
+        friendly_name: "Master Bath Sensor Combo"
+        entity_id:
+          - binary_sensor.master_bath_below_threshold
+          - binary_sensor.master_bath_timeout_threshold
+          - binary_sensor.master_bath_toilet_distance
+          - sensor.time
+        value_template: >-
+          {{ is_state('binary_sensor.master_bath_below_threshold', 'on') and is_state('binary_sensor.master_bath_timeout_threshold', 'on') and is_state('binary_sensor.master_bath_toilet_distance', 'on')}}
+
 
 sensor:
-    - platform: mqtt
-      name: "Master Bath Temperature"
-      state_topic: "/esp-master-bath/Master Bath/Temperature"
-      qos: 0
-      unit_of_measurement: "°F"
-    - platform: mqtt
-      name: "Master Bath Humidity"
-      state_topic: "/esp-master-bath/Master Bath/Humidity"
-      qos: 0
-      unit_of_measurement: "%"
-    - platform: mqtt
-      name: "Master Bath Lux"
-      state_topic: "/esp-master-bath/Master Bath/Lux"
-      qos: 0
-      unit_of_measurement: "Lux"
-    - platform: template
-      sensors:
-        master_bath_humidity_difference:
-          friendly_name: "Master Bath Humidity Difference"
-          value_template: "{{ (states.sensor.master_bath_humidity.state | int) - (states.sensor.family_room_thermostat_humidity.state | int) }}"
-    - platform: mqtt
-      state_topic: "masterbath/humidity"
-      name: "Master Bath Humidity Restore"
-      value_template: "{{ value }}"
-      qos: 1
-    - platform: mqtt
-      state_topic: "masterbath/timeout"
-      name: "Master Bath Timeout Restore"
-      value_template: "{{ value }}"
-      qos: 1
+  - platform: mqtt
+    name: "Toilet Distance"
+    state_topic: "esp-master-bath-distance/Master Bath/Distance"
+    qos: 0
 
+  - platform: mqtt
+    name: "Master Bath Humidity"
+    state_topic: "/esp-master-bath/Master Bath/Humidity"
+    qos: 0
+    unit_of_measurement: "%"
 
-###################################################################################################################
-## Humidity & Timeout Thresholds
-###################################################################################################################
+  - platform: mqtt
+    name: "Master Bath Lux"
+    state_topic: "/esp-master-bath/Master Bath/Lux"
+    qos: 0
+    unit_of_measurement: "Lux"
 
-input_number:
-  master_bath_humidity_threshold:
-    name: Master Bath Humidity Threshold
-    initial: 20
-    min: 0
-    max: 100
-    step: 1
-  master_bath_timeout:
-    name: Master Bath Time Out
-    initial: 5
-    min: 5
-    max: 60
-    step: 1
+  - platform: mqtt
+    state_topic: "masterbath/humidity"
+    name: "Master Bath Humidity Restore"
+    value_template: "{{ value }}"
+    qos: 1
+
+  - platform: mqtt
+    state_topic: "masterbath/timeout"
+    name: "Master Bath Timeout Restore"
+    value_template: "{{ value }}"
+    qos: 1
+
+  - platform: template
+    sensors:
+      master_bath_humidity_difference:
+        friendly_name: "Master Bath Humidity Difference"
+        entity_id:
+          - sensor.master_bath_humidity
+          - sensor.family_room_thermostat_humidity
+        value_template: >-
+          {{ states('sensor.master_bath_humidity')|int - states('sensor.family_room_thermostat_humidity')|int }}
+
+################################################
+## Automation
+################################################
 
 automation:
 
-###################################################################################################################
-## Publish Humidity Threshold Value upon input change
-###################################################################################################################
+  ################################################
+  ## Publish Humidity Threshold Value upon input change
+  ################################################
 
   - alias: Master Bath Humidity MQTT
-    initial_state: true
+    initial_state: 'on'
     hide_entity: true
     trigger:
-      platform: state
-      entity_id: input_number.master_bath_humidity_threshold
+      - platform: state
+        entity_id: input_number.master_bath_humidity_threshold
     action:
       - service: mqtt.publish
         data_template:
           topic: "masterbath/humidity"
           retain: true
-          payload: '{{ states.input_number.master_bath_humidity_threshold.state }}'
+          payload: "{{ states('input_number.master_bath_humidity_threshold') }}"
 
-###################################################################################################################
-## Publish Timeout Value upon input change
-###################################################################################################################
+  ################################################
+  ## Publish Timeout Value upon input change
+  ################################################
 
   - alias: Master Bath Timeout MQTT
-    initial_state: true
+    initial_state: 'on'
     hide_entity: true
     trigger:
-      platform: state
-      entity_id: input_number.master_bath_timeout
+      - platform: state
+        entity_id: input_number.master_bath_timeout
     action:
       - service: mqtt.publish
         data_template:
           topic: "masterbath/timeout"
           retain: true
-          payload: '{{ states.input_number.master_bath_timeout.state }}'
+          payload: "{{ states('input_number.master_bath_timeout') }}"
 
-###################################################################################################################
-## Restore Threshold Values from MQTT
-###################################################################################################################
+  ################################################
+  ## Restore Threshold Values from MQTT
+  ################################################
 
   - alias: Master Bath Restore Settings on Startup
-    initial_state: true
+    initial_state: 'on'
     hide_entity: true
     trigger:
-      platform: homeassistant
-      event: start
+      - platform: homeassistant
+        event: start
     action:
       - delay:
           seconds: 5
       - service: input_number.set_value
         data_template:
           entity_id: input_number.master_bath_humidity_threshold
-          value: "{{states.sensor.master_bath_humidity_restore.state}}"
+          value: "{{ states('sensor.master_bath_humidity_restore')|int }}"
       - service: input_number.set_value
         data_template:
           entity_id: input_number.master_bath_timeout
-          value: "{{states.sensor.master_bath_timeout_restore.state}}"
+          value: "{{ states('sensor.master_bath_timeout_restore')|int }}"
 
+  ################################################
+  ## Master bath auto turn on motion if KM Group is home ###
+  ################################################
 
-
-###################################################################################################################
-## Master bath auto turn on motion if KM Group is home ###
-###################################################################################################################
   - alias: Master Bath Lights Motion ON
     initial_state: 'on'
     trigger:
       - platform: state
         entity_id: binary_sensor.master_bath_esp_motion
         to: 'on'
-
     condition:
-      condition: and
-      conditions:
       - condition: state
         entity_id: group.km_status
         state: 'home'
-
     action:
-      service: switch.turn_on
-      entity_id: switch.master_bath_68
+      - service: switch.turn_on
+        data:
+          entity_id: switch.master_bath_68
 
-###################################################################################################################
-## Master bath turn off if Humidity Differential is Below Set Amount and No Motion for Set minutes
-###################################################################################################################
 
-  - alias: Master Bath Humidity Level Low Off
-    initial_state: 'on'
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.master_bath_below_threshold
-        to: 'on'
-    action:
-      - wait_template: >-
-          {{ states.binary_sensor.master_bath_timeout_threshold.state == 'on' }}
-      - service: switch.turn_off
-        entity_id: switch.master_bath_68
+  ################################################
+  ## Master bath turn off if No motion OR KM Group Not Home, Humidity Threshold is below set value & No Motion for Set Value
+  ################################################
 
-###################################################################################################################
-## Master bath turn off if No motion OR KM Group Not Home, Humidity Threshold is below set value & No Motion for Set Value
-###################################################################################################################
-
-  - alias: Master Bath No Motion Off
+  - alias: Master Bath Auto On Off
     initial_state: 'on'
     trigger:
       - platform: state
         entity_id: binary_sensor.master_bath_esp_motion
         to: 'off'
-        for: '00:01:00'
+        for: '00:00:30'
       - platform: state
         entity_id: group.km_status
         to: 'not_home'
+        for: '00:02:00'
+      - platform: state
+        entity_id: binary_sensor.master_bath_sensor_combo
+
     action:
-      - wait_template: >-
-          {{ states.binary_sensor.master_bath_below_threshold.state == 'on' }}
-      - wait_template: >-
-          {{ states.binary_sensor.master_bath_timeout_threshold.state == 'on' }}
+      - condition: template
+        value_template: >-
+          {{ trigger.entity_id == 'binary_sensor.master_bath_sensor_combo' and trigger.to_state.state == 'on' }}
       - service: switch.turn_off
-        entity_id: switch.master_bath_68
-###################################################################################################################
-## Keep alive boolean sensor for calculations
-###################################################################################################################
+        data:
+          entity_id: switch.master_bath_68
 
-  - alias: Keep Alive
-    initial_state: true
-    hide_entity: true
-    trigger:
-      - platform: time
-        seconds: '/1'
-    action:
-      - service: input_boolean.toggle
-        entity_id: input_boolean.keep_alive
+  ################################################
+  ## Change motion to timeout to 5 mins at 1AM
+  ################################################
 
-###################################################################################################################
-## Change motion to timeout to 5 mins after midnight OR KM not home
-###################################################################################################################
 
-  - id: change_master_bath_timeout_sleep
+  - alias: Master Bath Change Timeout Sleep
     initial_state: 'on'
-    alias: Master Bath Change Timeout Sleep
     trigger:
       - platform: time
         at: '00:00:01'
@@ -234,26 +249,23 @@ automation:
         entity_id: group.km_status
         to: 'not_home'
         for: '00:05:00'
-
     action:
-      service: input_number.set_value
-      data_template:
-        entity_id: input_number.master_bath_timeout
-        value: '5'
+      - service: input_number.set_value
+        data:
+          entity_id: input_number.master_bath_timeout
+          value: 5
 
-###################################################################################################################
-## Change motion to timeout to 15 mins at 6AM
-###################################################################################################################
+  ################################################
+  ## Change motion to timeout to 15 mins at 6AM
+  ################################################
 
-  - id: change_master_bath_timeout_wakeup
+  - alias: Master Bath Change Timeout Wake Up
     initial_state: 'on'
-    alias: Master Bath Change Timeout Wake Up
     trigger:
-      platform: time
-      at: '06:00:00'
-
+      - platform: time
+        at: '06:00:00'
     action:
-      service: input_number.set_value
-      data_template:
-        entity_id: input_number.master_bath_timeout
-        value: '15'
+      - service: input_number.set_value
+        data:
+          entity_id: input_number.master_bath_timeout
+          value: 15
